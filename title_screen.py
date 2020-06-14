@@ -17,7 +17,7 @@ def draw(DISPLAY):
     background_l.anim_start()
 
     heading = text.text(DISPLAY, pygame.font.SysFont('arial', 40), (255,255,255))
-    heading.message("PGSCRIPT TUTOR", (grid.get_column(2.5), grid.get_row(1)))
+    heading.message("PGSCRIPT TUTOR", (grid.get_column(2.5), grid.get_row(1)), center=True)
 
     cont_button = button.button(DISPLAY, [200,200,200,100], [200,200,200,200], grid.get_column(2.5) - 80, (grid.get_row(3)) - 37, 160,75, "Continue", anim=True)
 

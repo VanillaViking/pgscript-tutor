@@ -20,7 +20,7 @@ def draw(DISPLAY):
     background_l.anim_start()
 
     heading = text.text(screen.surface, pygame.font.SysFont('arial', 40), (255,255,255))
-    heading.message("Select an Object", (grid.get_column(2.5), grid.get_row(1)))
+    heading.message("Select an Object", (grid.get_column(2.5), grid.get_row(1)), center=True)
 
     #BUTTONS
 
@@ -47,6 +47,8 @@ def draw(DISPLAY):
         
         screen.surface.blit(bg_surf_l, (0,0))
         screen.surface.blit(bg_surf_r, (DISPLAY.get_width() - bg_surf_r.get_width(),0))
+        if button_btn.get_state():
+            return "button"
 
         screen.draw()
 
