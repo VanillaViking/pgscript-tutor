@@ -39,7 +39,7 @@ def draw(DISPLAY):
     screen.add_objects([heading, button_btn, text_input_btn, slider_btn, draggable_btn, text_btn, bg_btn, anim_btn, grid_btn, scroll_btn])
 
     while True:
-        pygame.display.update()
+        pygame.display.flip()
         screen.surface.fill((82,9,124))
         
         background_l.draw()

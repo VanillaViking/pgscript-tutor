@@ -22,7 +22,7 @@ def draw(DISPLAY):
     cont_button = button.button(DISPLAY, [200,200,200,100], [200,200,200,200], grid.get_column(2.5) - 80, (grid.get_row(3)) - 37, 160,75, "Continue", anim=True)
 
     while not cont_button.get_state():
-        pygame.display.update()
+        pygame.display.flip()
         DISPLAY.fill((82,9,124))
         heading.draw()
         cont_button.draw()
