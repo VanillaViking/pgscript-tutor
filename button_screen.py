@@ -6,6 +6,8 @@ from pgscript import bg
 from pgscript import button
 from pgscript import text_input
 
+from parser import parse_args
+
 def draw(DISPLAY):
     grid = draw_grid.draw_grid(DISPLAY, 2, 8)
 
@@ -16,9 +18,10 @@ def draw(DISPLAY):
     doc_screen = scrolling_screen.scrolling_screen(doc_surf, 4, "l", 13, 15, (230,230,230))
     back_button = button.button(doc_screen.surface, [255,255,255,150], [255,255,255,200], grid.get_column(0.06), grid.get_row(0.2), 85,35, "BACK", anim=True) 
 
-    demo_button = button.button(demo_screen, (255,0,0), (0,255,0), 245, 285, 150,100, "example")
+    demo_button = button.button(demo_screen, (0,0,0), (75,75,75), 245, 285, 150,100, "example", (200,200,200))
 
-    demo_text = 'demo_button = button.button(demo_screen, (255,0,0), (0,255,0), 245, 285, 150,100, "example")' 
+    demo_text = 'demo_button = button.button(demo_screen, (0,0,0), (75,75,75), 245, 285, 150,100, "example", (200,200,200))' 
+    error_text = text.text(demo_screen, pygame.font.SysFont('arial', 20), (230,0,0))
 
     #TITLE
     title = text.text(doc_screen.surface, pygame.font.SysFont('arial', 40), (255,255,255))
@@ -58,21 +61,22 @@ def draw(DISPLAY):
     paragraph.wrapped_text("This method checks if the cursor is hovering over the button and is pressed. If the conditions are met, the button object’s pressed attribute is set to true. It is meant to be called in a loop with each pygame event given by pygame.event.get() as an argument.", (grid.get_column(0.06),grid.get_row(19.6)), 580, 2)
 
 
-    heading_2.message("pgscript.button.get_state()", (grid.get_column(0.06), paragraph.text_end + 70))
+    heading_2.message("pgscript.button.get_state()", (grid.get_column(0.06), paragraph.text_end[1] + 70))
 
-    paragraph.wrapped_text("This method returns true if the button has been pressed.", (grid.get_column(0.06), heading_2.text_end + 20), 580, 2)
+    paragraph.wrapped_text("This method returns true if the button has been pressed.", (grid.get_column(0.06), heading_2.text_end[1] + 20), 580, 2)
 
-    heading_2.message("pgscript.button.reset_state()", (grid.get_column(0.06), paragraph.text_end + 70))
+    heading_2.message("pgscript.button.reset_state()", (grid.get_column(0.06), paragraph.text_end[1] + 70))
 
-    paragraph.wrapped_text("This method resets the button so that the get_state() method will return false until the button is pressed again. This needs to be used when the button is required to be pressable after it has already been pressed before.", (grid.get_column(0.06), heading_2.text_end + 20), 580, 2)
+    paragraph.wrapped_text("This method resets the button so that the get_state() method will return false until the button is pressed again. This needs to be used when the button is required to be pressable after it has already been pressed before.", (grid.get_column(0.06), heading_2.text_end[1] + 20), 580, 2)
     
     #DEMO
-    heading.message("DEMO", (grid.get_column(0.06), paragraph.text_end + 70))     
+    #heading.message("DEMO", (grid.get_column(0.06), paragraph.text_end[1] + 70))     
     
-    demo_input = text_input.text_input(doc_screen.surface, grid.get_column(0.02), heading.text_end + 70, 630, 30, demo_text, (255,255,255),(200,200,200),(100,100,100), 15)
-    run_demo = button.button(doc_screen.surface, [255,255,255,150], [255,255,255,200],grid.get_column(0.06), demo_input.rect.bottom + 10, 85,30, "Run" )
+    demo_input = text_input.text_input(demo_screen, grid.get_column(0), grid.get_row(6.5), 610, 30, demo_text, (0,0,0),(25,25,25),(100,100,100), 15)
+    run_demo = button.button(demo_screen, [0,0,0,240], [0,0,0,190],grid.get_column(0.02), demo_input.rect.bottom + 10, 85,30, "Run", (200,200,200), anim=True)
+    reset_demo = button.button(demo_screen, [0,0,0,240], [0,0,0,190],grid.get_column(0.02) + 90, demo_input.rect.bottom + 10, 85,30, "Reset", (200,200,200), anim=True)
 
-    doc_screen.add_objects([title, heading, heading_2, paragraph, back_button, demo_input, run_demo])
+    doc_screen.add_objects([title, heading, heading_2, paragraph, back_button])
 
     background = bg.parallax_bg(doc_surf, "obj_bg.jpg") 
 
@@ -82,6 +86,10 @@ def draw(DISPLAY):
 
         demo_screen.fill([200,200,200,200])
         demo_button.draw()
+        demo_input.draw()
+        run_demo.draw()
+        reset_demo.draw()
+        error_text.draw()
         doc_screen.surface.fill([255,255,255,0])
 
         doc_screen.draw()
@@ -92,68 +100,23 @@ def draw(DISPLAY):
             demo_args = demo_input.get_text()[28:-1]
             try:
                 demo_button = button.button(demo_screen, *parse_args(demo_args))
+                print(*parse_args(demo_args))
             except:
-                print("rip")
+                error_text.message("Invalid syntax", (grid.get_column(0.5), grid.get_row(7)), 3, center=True)
             run_demo.reset_state()
+
+        elif reset_demo.get_state():
+            demo_input.set_text(demo_text)
+            run_demo.pressed = True
+            reset_demo.reset_state()
 
         for event in pygame.event.get():
             doc_screen.update(event)
+            run_demo.update(event, (pygame.mouse.get_pos()[0] - (DISPLAY.get_width()/2) - 13, pygame.mouse.get_pos()[1]))
+            demo_input.update(event, (pygame.mouse.get_pos()[0] - (DISPLAY.get_width()/2) - 13, pygame.mouse.get_pos()[1]))
             demo_button.update(event , (pygame.mouse.get_pos()[0] - (DISPLAY.get_width()/2) - 13, pygame.mouse.get_pos()[1]))
+            reset_demo.update(event, (pygame.mouse.get_pos()[0] - (DISPLAY.get_width()/2) - 13, pygame.mouse.get_pos()[1]))
 
-
-def parse_args(string):
-    open_curl = []
-    close_curl = []
-
-    open_square = []
-    close_square = []
-    for n,char in enumerate(string):
-        if char == "(":
-            open_curl.append(n)
-        if char == ")":
-            close_curl.append(n)
-        
-        if char == "[":
-            open_square.append(n)
-        if char == "]":
-            close_square.append(n)
-    
-    curl = []
-    for i in range(len(open_curl)):
-        curl.append((open_curl[i], close_curl[i]))
-
-    square = []
-    for m in range(len(open_square)):
-        square.append((open_square[m], close_square[m]))
-
-    for n in curl:
-        string = string[:n[0]] + string[n[0]:n[1]].replace(",", "%") + string[n[1]:]
-
-    for n in square:
-        string = string[:n[0]] + string[n[0]:n[1]].replace(",", "%") + string[n[1]:]
-
-    args_list = string.split(",")
-
-    for n in range(len(args_list)):
-        args_list[n] = args_list[n].replace("%", ",").strip()
-
-    for n in range(len(args_list)):
-        if "(" in args_list[n] or "[" in args_list[n]:
-            args_list[n] = args_list[n][1:-1].split(",")
-            for c,l in enumerate(args_list[n]):
-                args_list[n][c] = int(l)
-        
-        elif args_list[n].isdigit():
-            args_list[n] = int(args_list[n])
-
-        elif args_list[n].lower() == "true" or args_list[n].lower() == "false":
-            args_list[n] = bool(args_list[n])
-
-        elif args_list[n][0] == "'" or args_list[n][0] == '"':
-            args_list[n] = args_list[n][1:-1]
-   
-    args_list.pop(0)
-    return args_list
 
 
 

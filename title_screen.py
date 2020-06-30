@@ -10,8 +10,8 @@ def draw(DISPLAY):
     bg_surf_l = pygame.Surface((grid.get_column(1), DISPLAY.get_height())) 
     bg_surf_r = pygame.Surface((grid.get_column(1), DISPLAY.get_height())) 
 
-    background_l = bg.scrolling_bg(bg_surf_l, (82,9,124), ["tringle.png"], 30)
-    background_r = bg.scrolling_bg(bg_surf_r, (82,9,124), ["tringle.png"], 30)
+    background_l = bg.scrolling_bg(bg_surf_l, ["tringle.png"],(82,9,124),  30)
+    background_r = bg.scrolling_bg(bg_surf_r, ["tringle.png"],(82,9,124),  30)
 
     background_r.anim_start()
     background_l.anim_start()
