@@ -33,11 +33,10 @@ def draw(DISPLAY):
     s_bg_btn = button.button(screen.surface, [200,200,200,100],[255,130,245,200], grid.get_column(3.5)- 75, grid.get_row(6) - 75, 150,150, "Scrolling Background", anim=True, wrapping=10, font_size=24, text_center=True)
     p_bg_btn = button.button(screen.surface, [200,200,200,100],[255,130,245,200], grid.get_column(1.5)- 75, grid.get_row(8.5) - 75, 150,150, "Parallax Background", anim=True, wrapping=10, font_size=24, text_center=True)
 
-    anim_btn = button.button(screen.surface, [200,200,200,100],[255,130,245,200], grid.get_column(2.5)- 75, grid.get_row(8.5) - 75, 150,150, "Animations", anim=True, font_size=24) 
     grid_btn = button.button(screen.surface, [200,200,200,100],[255,130,245,200], grid.get_column(3.5)- 75, grid.get_row(8.5) - 75, 150,150, "Grid", anim=True, font_size=24) 
-    scroll_btn = button.button(screen.surface, [200,200,200,100],[255,130,245,200], grid.get_column(1.5)- 75, grid.get_row(11) - 75, 150,150, "Scrolling Screen", anim=True, font_size=24, wrapping=10) 
+    scroll_btn = button.button(screen.surface, [200,200,200,100],[255,130,245,200], grid.get_column(2.5)- 75, grid.get_row(8.5) - 75, 150,150, "Scrolling Screen", anim=True, font_size=24, wrapping=10) 
 
-    screen.add_objects([heading, button_btn, text_input_btn, slider_btn, draggable_btn, text_btn, s_bg_btn, p_bg_btn, anim_btn, grid_btn, scroll_btn])
+    screen.add_objects([heading, button_btn, text_input_btn, slider_btn, draggable_btn, text_btn, s_bg_btn, p_bg_btn, grid_btn, scroll_btn])
 
     while True:
         pygame.display.flip()
@@ -62,10 +61,10 @@ def draw(DISPLAY):
             return "s_bg"
         elif p_bg_btn.get_state():
             return "p_bg"
-        elif anim_btn.get_state():
-            return "anim"
         elif grid_btn.get_state():
             return "grid"
+        elif scroll_btn.get_state():
+            return "scroll"
 
 
 

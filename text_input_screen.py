@@ -56,7 +56,7 @@ def draw(DISPLAY):
 
     heading_2.message("pgscript.text_input.text_input()", (grid.get_column(0.06), heading.text_end[1] + 100))
 
-    paragraph.wrapped_text("The constructor method of the text field. It’s appearance and position is passed as arguments to this constructor.", (grid.get_column(0.06), heading_2.text_end[1] + 75), 580, 2)
+    paragraph.wrapped_text("The constructor method of the text field. It's appearance and position is passed as arguments to this constructor.", (grid.get_column(0.06), heading_2.text_end[1] + 75), 580, 2)
 
     arg_heading.message("DISPLAY (pygame.Surface):", (grid.get_column(0.06), paragraph.text_end[1] + 50))
 

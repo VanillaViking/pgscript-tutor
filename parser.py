@@ -47,6 +47,10 @@ def parse_args(string):
         elif args_list[n].lower() == "true" or args_list[n].lower() == "false":
             args_list[n] = bool(args_list[n])
 
+        elif '.' in args_list[n]:
+            if args_list[n].replace('.', '').isdigit():
+                args_list[n] = float(args_list[n])
+
         elif args_list[n][0] == "'" or args_list[n][0] == '"':
             args_list[n] = args_list[n][1:-1]
      
