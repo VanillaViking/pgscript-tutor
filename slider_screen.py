@@ -5,7 +5,7 @@ from pgscript import text
 from pgscript import bg
 from pgscript import button
 from pgscript import text_input
-from parser import parse_args
+from pgscript_parser import parse_args
 
 from pgscript import slider
 
